@@ -4,6 +4,6 @@ import { validateCakePost } from '../middlewares/validateCakePost.js';
 
 const router = Router();
 
-router.post('/cake', validateCakePost, newCake);
+router.post('/cakes', validateCakePost, newCake);
 
 export default router;
