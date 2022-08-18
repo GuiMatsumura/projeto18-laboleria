@@ -19,4 +19,31 @@ function insertOrder(order) {
   );
 }
 
-export default { clientIdExist, cakeIdExist, insertOrder };
+function getAllOrders() {
+  return connection.query(
+    `SELECT jsonb_build_object('id', clients.id, 'name', clients.name, 'address', clients.address, 'phone', clients.phone) AS client, jsonb_build_object('id', cakes.id, 'name', cakes.name, 'price', cakes.price, 'description', cakes.description, 'image', cakes.image) AS cake, orders.id AS "orderId", orders."createdAt", orders.quantity, orders."totalPrice" FROM orders JOIN clients ON clients.id = orders."clientId" JOIN cakes ON cakes.id = orders."cakeId"`
+  );
+}
+
+function getDailyOrders(date) {
+  return connection.query(
+    `SELECT jsonb_build_object('id', clients.id, 'name', clients.name, 'address', clients.address, 'phone', clients.phone) AS client, jsonb_build_object('id', cakes.id, 'name', cakes.name, 'price', cakes.price, 'description', cakes.description, 'image', cakes.image) AS cake, orders.id AS "orderId", orders."createdAt", orders.quantity, orders."totalPrice" FROM orders JOIN clients ON clients.id = orders."clientId" JOIN cakes ON cakes.id = orders."cakeId" WHERE "createdAt" = $1`,
+    [date]
+  );
+}
+
+function getIdOrder(id) {
+  return connection.query(
+    `SELECT jsonb_build_object('id', clients.id, 'name', clients.name, 'address', clients.address, 'phone', clients.phone) AS client, jsonb_build_object('id', cakes.id, 'name', cakes.name, 'price', cakes.price, 'description', cakes.description, 'image', cakes.image) AS cake, orders.id AS "orderId", orders."createdAt", orders.quantity, orders."totalPrice" FROM orders JOIN clients ON clients.id = orders."clientId" JOIN cakes ON cakes.id = orders."cakeId" WHERE orders.id = $1`,
+    [id]
+  );
+}
+
+export default {
+  clientIdExist,
+  cakeIdExist,
+  insertOrder,
+  getAllOrders,
+  getDailyOrders,
+  getIdOrder,
+};
