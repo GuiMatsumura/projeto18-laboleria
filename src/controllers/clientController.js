@@ -9,3 +9,13 @@ export async function newClient(req, res) {
     res.status(500).send(err);
   }
 }
+
+export async function getClientsOrders(req, res) {
+  const { id } = req.params;
+  try {
+    const { rows: orders } = await clientRepository.clientOrder(id);
+    res.status(200).send(orders);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}
