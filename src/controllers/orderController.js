@@ -14,14 +14,14 @@ export async function getOrders(req, res) {
   const { date } = req.query;
   try {
     const { rows: posts } = await orderRepository.getAllOrders();
-    if (posts.length === 0) {
+    if (!posts.length) {
       return res.status(404).send(posts);
     }
     if (!date) {
       return res.status(200).send(posts);
     }
     const { rows: dailyOrders } = await orderRepository.getDailyOrders(date);
-    if (dailyOrders.length === 0) {
+    if (!dailyOrders.length) {
       return res.status(404).send(dailyOrders);
     }
     res.status(200).send(dailyOrders);
@@ -34,7 +34,7 @@ export async function getOrdersId(req, res) {
   const { id } = req.params;
   try {
     const { rows: postId } = await orderRepository.getIdOrder(id);
-    if (postId.length === 0) {
+    if (!postId.length) {
       return res.sendStatus(404);
     }
     res.status(200).send(postId);

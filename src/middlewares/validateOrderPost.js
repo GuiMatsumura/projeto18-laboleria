@@ -9,11 +9,11 @@ export async function validateOrderPost(req, res, next) {
   }
   try {
     const { rows: clientIdExist } = await orderRepository.clientIdExist(order);
-    if (clientIdExist.length === 0) {
+    if (!clientIdExist.length) {
       return res.sendStatus(404);
     }
     const { rows: cakeIdExist } = await orderRepository.cakeIdExist(order);
-    if (cakeIdExist.length === 0) {
+    if (!cakeIdExist.length) {
       return res.sendStatus(404);
     }
   } catch (err) {
